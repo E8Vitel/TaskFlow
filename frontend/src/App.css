@@ -1,0 +1,31 @@
+.proyectos {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tarjeta {
+  background-color: #f9f9f9;
+  border: 1px solid rgb(190, 190, 190);
+  border-radius: 10px;
+  padding: 16px;
+  width: 250px;
+}
+
+.tarjeta h3 {
+  color: black;
+  margin: 0;
+  padding-bottom: 12px;
+}
+
+.estado {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  display: inline-block;
+}
