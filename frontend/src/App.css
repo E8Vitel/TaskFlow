@@ -12,8 +12,10 @@
   background-color: #f9f9f9;
   border: 1px solid rgb(190, 190, 190);
   border-radius: 10px;
+  flex-basis: 250px;
+  flex-shrink: 1;
+  box-sizing: border-box;
   padding: 16px;
-  width: 250px;
 }
 
 .tarjeta h3 {

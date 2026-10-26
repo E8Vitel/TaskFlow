@@ -1,44 +1,83 @@
 import './App.css'
+import { useState } from 'react'
+
 
 function App() {
   const estados = [
     {
+      id: 1,
       nombre: "Pendiente",
       fondo: "#FEE2E2",
       texto: "#991B1B"
     },
     {
+      id: 2,
       nombre: "En progreso",
       fondo: "#FEF3C7",
       texto: "#92400E"
     },
     {
+      id: 3,
       nombre: "Completado",
       fondo: "#DCFCE7",
       texto: "#166534"
     }];
 
-  const proyectos = [
+  const [nombreProyecto, setNombreProyecto] = useState("")
+  const [proyectosArray, setProyectosArray] = useState([
     { id: 1, nombre: "Sitio web", estado: estados[1] },
     { id: 2, nombre: "App móvil", estado: estados[0] },
-    { id: 3, nombre: "API de clientes 1", estado: estados[2] },
-    { id: 4, nombre: "API de clientes 2", estado: estados[2] },
-    { id: 5, nombre: "API de clientes 3", estado: estados[2] },
-    { id: 6, nombre: "API de clientes 4", estado: estados[2] },
-    { id: 7, nombre: "API de clientes 5", estado: estados[2] }
-  ];
-
+    { id: 3, nombre: "API de clientes", estado: estados[2] }
+  ]);
   return (
     <main>
       <h1>TaskFlow</h1>
+      <input 
+        placeholder="nombre del proyecto" 
+        type="text"
+        value={nombreProyecto}
+        onChange={e => setNombreProyecto(e.target.value)}/>
+
+      <button
+        onClick={() => {
+          if (nombreProyecto.trim() === "") {
+            alert("El nombre de proyecto no puede estar vacio");
+            return;
+          }
+            setProyectosArray([
+              ...proyectosArray,
+              { id: proyectosArray.length > 0 ? Math.max(...proyectosArray.map(p => p.id)) + 1 : 1, nombre: nombreProyecto, estado: estados[0] }
+            ]);
+            setNombreProyecto(""); 
+        }}>Crear proyecto</button>
+
       <section className="proyectos">
-        {proyectos.map((proyecto) => {
+        {proyectosArray.map((proyecto) => {
           return (
             <article className="tarjeta" key={proyecto.id}>
               <h3>{proyecto.nombre}</h3>
-              <p className="estado" style={{ backgroundColor: proyecto.estado.fondo, color: proyecto.estado.texto }}>
-                {proyecto.estado.nombre}
-              </p>
+              <select 
+              className="estado"
+              style={{ backgroundColor: proyecto.estado.fondo, color: proyecto.estado.texto }}
+              value={proyecto.estado.id}
+              onChange={(e) => {
+                const nuevoEstado = estados.find(estado => estado.id === parseInt(e.target.value));
+                if (nuevoEstado) {
+                  setProyectosArray(proyectosArray.map(p => p.id === proyecto.id ? { ...p, estado: nuevoEstado } : p));
+                }
+              }}>
+                {estados.map((estado) => {
+                  return (
+                    <option key={estado.id} value={estado.id}>
+                      {estado.nombre}
+                    </option>
+                  )
+                })}
+              </select>
+              <button onClick={
+                () => setProyectosArray(proyectosArray.filter(p => p.id !== proyecto.id))
+              }
+              >X</button>
             </article>
           )
         })}
